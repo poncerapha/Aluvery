@@ -12,14 +12,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -110,6 +113,76 @@ fun ChallengeCompose() {
                         lineHeight = 20.sp
                     )
                 }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductItemPreviewChallengeScrollCollum() {
+    Surface(
+        shape = RoundedCornerShape(15.dp),
+        shadowElevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .height(250.dp)
+                .width(200.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            val imageSize = 100.dp
+            Box(
+                modifier = Modifier
+                    .height(imageSize)
+                    .fillMaxWidth()
+                    .background(
+                        Brush.horizontalGradient(
+                            listOf(
+                                Purple500, Teal200
+                            )
+                        )
+                    )
+
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(imageSize)
+                        .offset(y = imageSize / 2)
+                        .align(BottomCenter)
+                        .clip(shape = CircleShape),
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = "Product Image"
+                )
+            }
+            Spacer(modifier = Modifier.height(imageSize / 2))
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = LoremIpsum(50).values.first(),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight(700)
+                )
+                Text(
+                    modifier = Modifier.padding(top = 8.dp),
+                    text = "R$ 14,99",
+                    fontWeight = FontWeight(400)
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .background(Color.LightGray)
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    text = LoremIpsum(50).values.first(),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight(700)
+                )
             }
         }
     }
