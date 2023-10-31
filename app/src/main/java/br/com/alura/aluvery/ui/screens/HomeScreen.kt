@@ -8,13 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +22,7 @@ import br.com.alura.aluvery.sampledata.sampleProducts
 import br.com.alura.aluvery.sampledata.sampleSections
 import br.com.alura.aluvery.ui.components.ProductCardItem
 import br.com.alura.aluvery.ui.components.ProductsSection
+import br.com.alura.aluvery.ui.components.SearchTextField
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 
 @Composable
@@ -36,52 +31,39 @@ fun HomeScreen(
     searchText: String = ""
 ) {
     Column {
-        var inputText by remember { mutableStateOf(searchText) }
-        OutlinedTextField(
-            value = inputText,
-            onValueChange = { newText ->
-                inputText = newText
+        var text by remember {
+            mutableStateOf(searchText)
+        }
+        SearchTextField(
+            searchText = text,
+            onSearchChange = {
+                text = it
             },
-            modifier = Modifier
+            Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            label = {
-                Text(text = "Produto")
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Icone de Lupa para busca"
-                )
-            },
-            placeholder = {
-                Text(text = "O que voce procura?")
-            }
         )
-
-        val searchedProducts = remember(inputText) {
-            if(inputText.isNotBlank()) {
+        val searchedProducts = remember(text) {
+            if (text.isNotBlank()) {
                 sampleProducts.filter { product ->
                     product.name.contains(
-                        inputText,
+                        text,
                         ignoreCase = true,
                     ) ||
                         product.description?.contains(
-                            inputText,
+                            text,
                             ignoreCase = true,
                         ) ?: false
                 }
             } else emptyList()
         }
-
         LazyColumn(
             Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            if(inputText.isBlank()) {
+            if (text.isBlank()) {
                 for (section in sections) {
                     val title = section.key
                     val products = section.value
@@ -109,9 +91,20 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     AluveryTheme {
         Surface {
+            HomeScreen(sampleSections)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun HomeScreenWithSearchTextPreview() {
+    AluveryTheme {
+        Surface {
             HomeScreen(
-                sections = sampleSections,
-                searchText = "a")
+                sampleSections,
+                searchText = "a",
+            )
         }
     }
 }
