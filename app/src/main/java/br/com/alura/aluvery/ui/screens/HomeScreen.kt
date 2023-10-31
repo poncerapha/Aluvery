@@ -27,14 +27,16 @@ import br.com.alura.aluvery.model.Product
 import br.com.alura.aluvery.sampledata.sampleProducts
 import br.com.alura.aluvery.sampledata.sampleSections
 import br.com.alura.aluvery.ui.components.ProductCardItem
+import br.com.alura.aluvery.ui.components.ProductsSection
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 
 @Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>
+    sections: Map<String, List<Product>>,
+    searchText: String = ""
 ) {
     Column {
-        var inputText by remember { mutableStateOf("") }
+        var inputText by remember { mutableStateOf(searchText) }
         OutlinedTextField(
             value = inputText,
             onValueChange = { newText ->
@@ -58,29 +60,46 @@ fun HomeScreen(
             }
         )
 
+        val searchedProducts = remember(inputText) {
+            if(inputText.isNotBlank()) {
+                sampleProducts.filter { product ->
+                    product.name.contains(
+                        inputText,
+                        ignoreCase = true,
+                    ) ||
+                        product.description?.contains(
+                            inputText,
+                            ignoreCase = true,
+                        ) ?: false
+                }
+            } else emptyList()
+        }
+
         LazyColumn(
             Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            items(sampleProducts) { product ->
-                ProductCardItem(
-                    product = product,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                )
+            if(inputText.isBlank()) {
+                for (section in sections) {
+                    val title = section.key
+                    val products = section.value
+                    item {
+                        ProductsSection(
+                            title = title,
+                            products = products
+                        )
+                    }
+                }
+            } else {
+                items(searchedProducts) { p ->
+                    ProductCardItem(
+                        product = p,
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                    )
+                }
             }
-//            for (section in sections) {
-//                val title = section.key
-//                val products = section.value
-//                item {
-//                    ProductsSection(
-//                        title = title,
-//                        products = products
-//                    )
-//                }
-//            }
         }
     }
 }
@@ -90,7 +109,9 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     AluveryTheme {
         Surface {
-            HomeScreen(sampleSections)
+            HomeScreen(
+                sections = sampleSections,
+                searchText = "a")
         }
     }
 }
