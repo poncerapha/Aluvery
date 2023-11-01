@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.com.alura.aluvery.model.Product
 import br.com.alura.aluvery.sampledata.sampleSections
 import br.com.alura.aluvery.states.HomeScreenUIState
 import br.com.alura.aluvery.ui.components.ProductCardItem
@@ -24,13 +23,13 @@ import br.com.alura.aluvery.ui.theme.AluveryTheme
 
 @Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>,
     state: HomeScreenUIState = HomeScreenUIState()
 ) {
     val text = state.text
     val searchedProducts = remember(text) {
         state.searchedProducts
     }
+    val sections = state.sections
     Column {
         SearchTextField(
             searchText = state.text,
@@ -73,7 +72,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     AluveryTheme {
         Surface {
-            HomeScreen(sampleSections)
+            HomeScreen(state = HomeScreenUIState(sampleSections))
         }
     }
 }
@@ -84,8 +83,10 @@ fun HomeScreenWithSearchTextPreview() {
     AluveryTheme {
         Surface {
             HomeScreen(
-                sampleSections,
-                state = HomeScreenUIState("a"),
+                state = HomeScreenUIState(
+                    searchText = "a",
+                    sections = sampleSections
+                ),
             )
         }
     }
