@@ -6,9 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -24,8 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +42,7 @@ class ProductFormActivity : ComponentActivity() {
         setContent {
             AluveryTheme {
                 Surface {
-                    ProductForm()
+                    ProductFormScreen()
                 }
             }
         }
@@ -50,32 +50,27 @@ class ProductFormActivity : ComponentActivity() {
 }
 
 @Composable
-fun ProductForm() {
+fun ProductFormScreen() {
     Column(
-        modifier = Modifier
+        Modifier
+            .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        var url by remember { mutableStateOf("") }
-        var name by remember { mutableStateOf("") }
-        var price by remember { mutableStateOf("") }
-        var description by remember { mutableStateOf("") }
-
+        Spacer(modifier = Modifier)
         Text(
-            modifier = Modifier
-                .padding(top = 16.dp),
-            text = "Criando um Produto",
+            text = "Criando o produto",
+            Modifier.fillMaxWidth(),
             fontSize = 28.sp,
-            fontWeight = FontWeight(400)
         )
-
-        if (url.isNotBlank()) {
+        var url by remember {
+            mutableStateOf("")
+        }
+        if(url.isNotBlank()) {
             AsyncImage(
-                model = url,
-                contentDescription = null,
-                modifier = Modifier
+                model = url, contentDescription = null,
+                Modifier
                     .fillMaxWidth()
                     .height(200.dp),
                 contentScale = ContentScale.Crop,
@@ -83,55 +78,57 @@ fun ProductForm() {
                 error = painterResource(id = R.drawable.placeholder)
             )
         }
-
         TextField(
-            modifier = Modifier
-                .fillMaxWidth(),
             value = url,
+            onValueChange = {
+                url = it
+            },
+            Modifier.fillMaxWidth(),
             label = {
                 Text(text = "Url da imagem")
             },
-            onValueChange = {
-                url = it
-            })
-
+        )
+        var name by remember {
+            mutableStateOf("")
+        }
         TextField(
-            modifier = Modifier
-                .fillMaxWidth(),
             value = name,
+            onValueChange = {
+                name = it
+            },
+            Modifier.fillMaxWidth(),
             label = {
                 Text(text = "Nome")
             },
-            onValueChange = {
-                name = it
-            }
         )
-
+        var price by remember {
+            mutableStateOf("")
+        }
         TextField(
-            modifier = Modifier
-                .fillMaxWidth(),
             value = price,
+            onValueChange = {
+                price = it
+            },
+            Modifier.fillMaxWidth(),
             label = {
                 Text(text = "Preço")
             },
-            onValueChange = {
-                price = it
-            }
         )
-
+        var description by remember {
+            mutableStateOf("")
+        }
         TextField(
             value = description,
             onValueChange = {
                 description = it
             },
-            modifier = Modifier
+            Modifier
                 .fillMaxWidth()
-                .height(100.dp),
+                .heightIn(min = 100.dp),
             label = {
                 Text(text = "Descrição")
             },
         )
-
         Button(
             onClick = {
                 val convertedPrice = try {
@@ -146,23 +143,21 @@ fun ProductForm() {
                     description = description
                 )
                 Log.i("ProductFormActivity", "ProductFormScreen: $product")
-            }) {
-            Text(
-                text = "Salvar",
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
+            },
+            Modifier.fillMaxWidth(),
+        ) {
+            Text(text = "Salvar")
         }
+        Spacer(modifier = Modifier)
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview
 @Composable
-fun ProductFromPreview() {
+fun ProductFormScreenPreview() {
     AluveryTheme {
         Surface {
-            ProductForm()
+            ProductFormScreen()
         }
     }
 }
