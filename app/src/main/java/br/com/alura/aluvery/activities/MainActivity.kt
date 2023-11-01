@@ -1,30 +1,57 @@
 package br.com.alura.aluvery.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import br.com.alura.aluvery.sampledata.sampleSections
 import br.com.alura.aluvery.ui.screens.HomeScreen
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 
-class MainActivity: ComponentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App()
+            App(onFabClick = {
+                startActivity(Intent(this, ProductFormActivity::class.java))
+            })
         }
     }
 }
 
 @Composable
-fun App() {
+fun App(onFabClick: () -> Unit = {}) {
     AluveryTheme {
         Surface {
-            HomeScreen(
-                sampleSections
-            )
+            Scaffold(
+                floatingActionButton = {
+                    FloatingActionButton(onClick = onFabClick) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Floating Button"
+                        )
+                    }
+                }
+            ) { paddingValues ->
+                Box(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                ) {
+                    HomeScreen(
+                        sampleSections
+                    )
+                }
+            }
         }
     }
 }
