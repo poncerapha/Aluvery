@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.alura.aluvery.sampledata.sampleSections
-import br.com.alura.aluvery.states.HomeScreenUIState
+import br.com.alura.aluvery.states.HomeScreenUiState
 import br.com.alura.aluvery.ui.components.ProductCardItem
 import br.com.alura.aluvery.ui.components.ProductsSection
 import br.com.alura.aluvery.ui.components.SearchTextField
@@ -23,28 +23,29 @@ import br.com.alura.aluvery.ui.theme.AluveryTheme
 
 @Composable
 fun HomeScreen(
-    state: HomeScreenUIState = HomeScreenUIState()
+    state: HomeScreenUiState = HomeScreenUiState()
 ) {
-    val text = state.text
-    val searchedProducts = remember(text) {
-        state.searchedProducts
-    }
-    val sections = state.sections
     Column {
+        val sections = state.sections
+        val text = state.text
+        val searchedProducts = remember(text) {
+            state.searchedProducts
+        }
         SearchTextField(
-            searchText = state.text,
-            onSearchChange = state.onStateChange,
+            searchText = text,
+            onSearchChange = state.onSearchChange,
             Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
         )
+
         LazyColumn(
             Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            if (state.isShowSection()) {
+            if (state.isShowSections()) {
                 for (section in sections) {
                     val title = section.key
                     val products = section.value
@@ -72,7 +73,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     AluveryTheme {
         Surface {
-            HomeScreen(state = HomeScreenUIState(sampleSections))
+            HomeScreen(HomeScreenUiState(sections = sampleSections))
         }
     }
 }
@@ -83,7 +84,7 @@ fun HomeScreenWithSearchTextPreview() {
     AluveryTheme {
         Surface {
             HomeScreen(
-                state = HomeScreenUIState(
+                state = HomeScreenUiState(
                     searchText = "a",
                     sections = sampleSections
                 ),

@@ -6,15 +6,13 @@ import androidx.compose.runtime.setValue
 import br.com.alura.aluvery.model.Product
 import br.com.alura.aluvery.sampledata.sampleProducts
 
-class HomeScreenUIState(
-    val sections: Map<String, List<Product>> = emptyMap(), searchText: String = ""
+class HomeScreenUiState(
+    val sections: Map<String, List<Product>> = emptyMap(),
+    searchText: String = ""
 ) {
 
     var text by mutableStateOf(searchText)
-
-    val onStateChange: (String) -> Unit = {
-        text = it
-    }
+        private set
 
     val searchedProducts
         get() =
@@ -31,7 +29,11 @@ class HomeScreenUIState(
                 }
             } else emptyList()
 
-    fun isShowSection(): Boolean {
+    fun isShowSections(): Boolean {
         return text.isBlank()
+    }
+
+    val onSearchChange: (String) -> Unit = { searchText ->
+        text = searchText
     }
 }

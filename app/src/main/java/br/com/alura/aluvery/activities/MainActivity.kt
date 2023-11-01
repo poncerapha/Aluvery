@@ -19,7 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.com.alura.aluvery.dao.ProductDao
 import br.com.alura.aluvery.sampledata.sampleCandies
 import br.com.alura.aluvery.sampledata.sampleDrinks
-import br.com.alura.aluvery.states.HomeScreenUIState
+import br.com.alura.aluvery.sampledata.sampleSections
+import br.com.alura.aluvery.states.HomeScreenUiState
 import br.com.alura.aluvery.ui.screens.HomeScreen
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     "Bebidas" to sampleDrinks
                 )
                 val state = remember(sections) {
-                    HomeScreenUIState(sections)
+                    HomeScreenUiState(sections)
                 }
                 HomeScreen(state = state)
             }
@@ -76,5 +77,7 @@ fun App(
 @Preview
 @Composable
 fun AppPreview() {
-    App()
+    App {
+        HomeScreen(HomeScreenUiState(sections = sampleSections))
+    }
 }
