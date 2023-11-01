@@ -40,7 +40,7 @@ fun HomeScreen(products: List<Product>) {
         mutableStateOf("")
     }
 
-    fun containsInNameOrDescrioption() = { product: Product ->
+    fun containsInNameOrDescription() = { product: Product ->
         product.name.contains(
             text,
             ignoreCase = true,
@@ -52,8 +52,8 @@ fun HomeScreen(products: List<Product>) {
 
     val searchedProducts = remember(text, products) {
         if (text.isNotBlank()) {
-            sampleProducts.filter(containsInNameOrDescrioption()) +
-                products.filter(containsInNameOrDescrioption())
+            sampleProducts.filter(containsInNameOrDescription()) +
+                products.filter(containsInNameOrDescription())
         } else emptyList()
     }
 
