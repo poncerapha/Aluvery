@@ -44,7 +44,7 @@ Para saber mais sobre o State Flow, visite [a documentação oficial](https://de
 ## 📲 Resultado Final
 
 <div align="center">
-  <video src="https://github.com/poncerapha/pokedex/assets/38406330/b57ab871-a5ec-4e6b-960a-5da0f4134c2e" width="400" />
+  <video src="https://github.com/poncerapha/Aluvery/assets/38406330/d4b5dc09-76c4-4dcb-a0c7-23f603940103" width="400" />
 </div>
 
 ## 💼 Contribuição
