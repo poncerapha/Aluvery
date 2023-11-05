@@ -2,7 +2,7 @@ package br.com.alura.aluvery.states
 
 import br.com.alura.aluvery.model.Product
 
-class HomeScreenUiState(
+data class HomeScreenUiState(
     val sections: Map<String, List<Product>> = emptyMap(),
     val searchedProducts: List<Product> = emptyList(),
     val searchText: String = "",

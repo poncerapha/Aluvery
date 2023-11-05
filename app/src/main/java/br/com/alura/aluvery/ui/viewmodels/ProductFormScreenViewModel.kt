@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class ProductFormScreenViewModel : ViewModel() {
-
     private val _uIState: MutableStateFlow<ProductFromScreenUIState> = MutableStateFlow(
         ProductFromScreenUIState()
     )
