@@ -1,6 +1,6 @@
 package br.com.alura.aluvery.states
 
-class ProductFromScreenUIState(
+data class ProductFromScreenUIState(
     val url: String = "",
     val name: String = "",
     val price: String = "",
@@ -9,5 +9,6 @@ class ProductFromScreenUIState(
     val onNameChange: (String) -> Unit = {},
     val onPriceChange: (String) -> Unit = {},
     val onDescriptionChange: (String) -> Unit = {},
+) {
     val isShowPreview: Boolean = url.isNotBlank()
-)
+}
